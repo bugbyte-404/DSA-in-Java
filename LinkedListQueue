@@ -1,0 +1,86 @@
+public class LinkedListQueue<T> {
+    
+    private Node head;
+    private Node tail;
+    private int size;
+    
+    //Node
+    private static class Node<T> {
+        public T data;
+        public Node next;
+    }
+    
+    //Empty constructor
+    public LinkedListQueue() {
+    }
+    
+    //Enqueue: add element to queue
+    public void enqueue(T newItem) {
+        
+        //Null item?
+        if (newItem == null) {
+            throw new IllegalArgumentException("Passed element is null!");
+        }
+        
+        if (head == null) {                 //Create first element
+            head = new Node();
+            head.data = newItem;            //(OR)
+            tail = head;
+        } else {                            //Add new element
+            tail.next = new Node();
+            tail.next.data = newItem;
+            tail = tail.next;
+        }
+        
+        //Increase size
+        size++;
+    }
+    
+    //Dequeue: remove element from queue
+    public T dequeue() {
+        
+        //Empty queue?
+        if (head == null) {
+            throw new IllegalStateException("Queue is empty!");
+        }
+        
+        //Save old element
+        T element = (T) head.data;
+        
+        //If last element, eliminate head/tail references, decrease size, and return element
+        if (head.next == null) {
+            head = null;
+            tail = null;
+            size--;
+            return element;
+        }
+        
+        //Normal element: eliminate reference to element, decrease size
+        head = head.next;
+        size--;
+        
+        //Return element
+        return element;
+    }
+    
+    //View first element in queue
+    public T peek() {
+        
+        //Empty queue?
+        if (head == null) {
+            throw new IllegalStateException("Queue is empty!");
+        }
+        
+        return (T) head.data;
+    }
+    
+    //Is the queue empty?
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
+    //Queue size?
+    public int size() {
+        return size;
+    }
+}
